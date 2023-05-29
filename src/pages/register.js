@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useState } from "react";
 
+
 export const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

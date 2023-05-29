@@ -2,6 +2,30 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faKey, faUser } from '@fortawesome/free-solid-svg-icons'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+
+const NavbarLoginForm = () => {
+  return <form method="post" className="hidden md:flex">
+  <div className="relative">
+    <div className="absolute inset-y-0 pl-3 py-2 left-0 pointer-events-none">
+      <FontAwesomeIcon aria-hidden className=" text-gray-400" icon={faUser} />
+    </div>
+    <input type="text" 
+    className="appearance-none pl-9 w-36 px-2 py-2 border focus:outline-none rounded focus:outline-blue-600 me-3" 
+    placeholder="Username"/>
+  </div>
+  <div className="relative">
+    <div className="absolute inset-y-0 pl-3 py-2 left-0 pointer-events-none">
+      <FontAwesomeIcon aria-hidden className=" text-gray-400" icon={faKey} />
+    </div>
+    <input type="password" 
+    className="appearance-none w-36 pl-9 py-2 px-2 border rounded focus:outline-none focus:outline-blue-600 " 
+    placeholder="Password"/>
+  </div>
+  <button type="submit" className=" bg-green-700 rounded font-bold text-white px-3 py-2 ms-3">{'>'}</button>
+  
+</form>
+}
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -32,26 +56,11 @@ export const Navbar = () => {
       </div>
 
       {/* Login Form */}
-      <form method="post" className="hidden md:flex">
-        <div className="relative">
-          <div className="absolute inset-y-0 pl-3 py-2 left-0 pointer-events-none">
-            <FontAwesomeIcon aria-hidden className=" text-gray-400" icon={faUser} />
-          </div>
-          <input type="text" 
-          className="appearance-none pl-9 w-36 px-2 py-2 border focus:outline-none rounded focus:outline-blue-600 me-3" 
-          placeholder="Username"/>
-        </div>
-        <div className="relative">
-          <div className="absolute inset-y-0 pl-3 py-2 left-0 pointer-events-none">
-            <FontAwesomeIcon aria-hidden className=" text-gray-400" icon={faKey} />
-          </div>
-          <input type="password" 
-          className="appearance-none w-36 pl-9 py-2 px-2 border rounded focus:outline-none focus:outline-blue-600 " 
-          placeholder="Password"/>
-        </div>
-        <button type="submit" className=" bg-green-700 rounded font-bold text-white px-3 py-2 ms-3">{'>'}</button>
-        
-      </form>
+      <Routes>
+        <Route path="/" element={<NavbarLoginForm />}>  </Route>
+        <Route path="/register" element={<div>Login</div>}></Route>
+        <Route path="/login" element={<div>Create Account</div>}></Route>
+      </Routes>
       
       
     </div>
