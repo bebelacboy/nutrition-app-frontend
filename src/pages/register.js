@@ -7,6 +7,9 @@ import { useState } from "react";
 export const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [error, setError] = useState("");
 
   const usernameChange = (event) => {
     setUsername(event.target.value)
@@ -18,13 +21,23 @@ export const RegisterPage = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    if (!username) {
+      setUsernameError("Please fill in the username!");
+    }
+    if (!password) {
+      setPasswordError("Please fill in the password!");
+    }
+    if (!password || !username) {
+      return;
+    }
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, {
         username,
         password
       });
     } catch (err) {
-      console.error(err)
+      setError(err.response.data.message);
+      console.error(err);
     }
   }
 
@@ -38,26 +51,27 @@ export const RegisterPage = () => {
             <FontAwesomeIcon aria-hidden className=" text-gray-400" icon={faUser} />
           </div>
           <input id="usernameInput" type="text" 
-          className="appearance-none sm:w-80 md:w-80 lg:w-96 pl-9 px-2 py-2 border focus:outline-none rounded focus:outline-blue-600 me-3" 
+          className="appearance-none sm:w-80 md:w-80 lg:w-96 pl-9 px-2 py-2 border focus:outline-none rounded focus:outline-blue-600 me-3"
           onChange={usernameChange}
           value={username}
           placeholder="Username"/>
         </div>
-        <br />
+        <p className="mt-2 text-red-600">{usernameError}</p>
         <label htmlFor="passwordInput" className="font-semibold text-lg">Password</label>
         <br />
         <div className="relative w-fit mx-auto">
           <div className="absolute inset-y-0 pl-3 py-2 left-0 pointer-events-none">
             <FontAwesomeIcon aria-hidden className=" text-gray-400" icon={faKey} />
           </div>
-          <input id="passwordInput" type="text" 
+          <input id="passwordInput" type="password" 
           className="appearance-none sm:w-80 md:w-80 lg:w-96 pl-9 px-2 py-2 border focus:outline-none rounded focus:outline-blue-600 me-3" 
           onChange={passwordChange}
           value={password}
           placeholder="Password"/>
-        </div>        
-        <br />
-        <button className="bg-blue-600 hover:bg-blue-900 rounded py-3 px-5 text-white" type="submit">Register</button>
+        </div>     
+        <p className="mt-2 text-red-600">{passwordError}</p>   
+        <button className="bg-blue-600 hover:bg-blue-900 rounded mt-2 py-3 px-5 text-white" type="submit">Register</button>
+        <p className="mt-2 text-red-600">{error}</p>
       </form>
     </div>
     

@@ -1,3 +1,91 @@
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import { useState } from "react";
+
+const ResultList = ({ resultSet }) => {
+  const view = resultSet.map((result) => {
+    return <p key={result.name}>{result.name}</p>
+  });
+  return view;
+}
+
 export const HomePage = () => {
-  return <div>Home</div>;
+  const [searchBase, setSearchBase] = useState("name");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  
+  const onChangeSearchBase = (event) => {
+    if (event.target.value === "name") {
+      setSearchBase("name");
+    } else {
+      setSearchBase("muscle");
+    }
+  }
+
+  const onChangeSearch = (event) => {
+    setSearchQuery(event.target.value);
+  }
+  const onKeyDownSearch = (event) => {
+    if (event.key === 'Enter') {
+      performSearch(searchQuery);
+    }
+  }
+
+  const performSearch = async (query) => {
+    setIsLoading(true);
+    let options = {}
+    if (searchBase === "name") {
+      options = {
+        method: 'GET',
+        url: 'https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises',
+        params: {name: searchQuery},
+        headers: {
+          'X-RapidAPI-Key': 'd31f531777mshae68be1f8bed451p1c7d29jsn18e4a72eeb0a',
+          'X-RapidAPI-Host': 'exercises-by-api-ninjas.p.rapidapi.com'
+        }
+      };
+    } else {
+      options = {
+        method: 'GET',
+        url: 'https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises',
+        params: {muscle: searchQuery},
+        headers: {
+          'X-RapidAPI-Key': 'd31f531777mshae68be1f8bed451p1c7d29jsn18e4a72eeb0a',
+          'X-RapidAPI-Host': 'exercises-by-api-ninjas.p.rapidapi.com'
+        }
+      };
+    }
+
+    try {
+      const response = await axios.request(options)
+      setSearchResult(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    setIsLoading(false);
+  }
+
+  return <div className="mt-36">
+    <h2 className="text-4xl font-bold">Search for Exercises</h2>
+    <div className="relative">  
+      <p className="inline font-semibold">Search based on</p>
+      <select onChange={onChangeSearchBase} className="inline border py-1 border-black rounded mx-2 px-2 text-black bg-blue-300" name="" id="">
+        <option value="name" className="py-2 select:bg-blue-400">Exercise Name</option>
+        <option value="muscle">Target Muscle</option>
+      </select>
+    </div>
+    <div className="relative w-fit mx-auto">
+      <div className="absolute inset-y-0 pl-3 py-2 top-2 left-0 pointer-events-none">
+        <FontAwesomeIcon aria-hidden className=" text-gray-400 text-lg" icon={faSearch} />
+      </div>
+      <input onKeyPress={onKeyDownSearch} onChange={onChangeSearch} type="text" value={searchQuery} className="w-96 ps-9 border border-black mt-2 h-10 rounded-md" placeholder={searchBase === "name" ? "Enter exercise name..." : "Enter target muscle..."}/>
+    </div>
+    {isLoading ? <div className="font-bold mt-3">Loading Exercises...</div> : <></>}
+    {isLoading ? <></> : <ResultList resultSet={searchResult}/>}
+    
+  </div>;
 };

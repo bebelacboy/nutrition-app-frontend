@@ -1,16 +1,47 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faKey, faUser } from '@fortawesome/free-solid-svg-icons'
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import axios from "axios";
 
 const NavbarLoginForm = () => {
-  return <form method="post" className="hidden md:flex">
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [ , setCookies] = useCookies(["access_token"]);
+  const navigate = useNavigate();
+
+  const usernameChange = (event) => {
+    setUsername(event.target.value)
+  }
+
+  const passwordChange = (event) => {
+    setPassword(event.target.value)
+  }
+  
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
+        username,
+        password
+      });
+      await setCookies("access_token", response.data.token);
+      await window.localStorage.setItem("userId", response.data.userId);
+      navigate("/");
+    } catch (err) {
+      console.error(err)
+    }
+  }
+  return <form onSubmit={onSubmit} method="post" className="hidden md:flex">
+    <Link className=" w-36 my-auto text-white text-sm hover:text-gray-100 me-4 py-1" to="/register">Dont have account?</Link>
   <div className="relative">
     <div className="absolute inset-y-0 pl-3 py-2 left-0 pointer-events-none">
       <FontAwesomeIcon aria-hidden className=" text-gray-400" icon={faUser} />
     </div>
     <input type="text" 
+    onChange={usernameChange}
     className="appearance-none pl-9 w-36 px-2 py-2 border focus:outline-none rounded focus:outline-blue-600 me-3" 
     placeholder="Username"/>
   </div>
@@ -18,7 +49,8 @@ const NavbarLoginForm = () => {
     <div className="absolute inset-y-0 pl-3 py-2 left-0 pointer-events-none">
       <FontAwesomeIcon aria-hidden className=" text-gray-400" icon={faKey} />
     </div>
-    <input type="password" 
+    <input type="password"
+    onChange={passwordChange} 
     className="appearance-none w-36 pl-9 py-2 px-2 border rounded focus:outline-none focus:outline-blue-600 " 
     placeholder="Password"/>
   </div>
@@ -27,9 +59,23 @@ const NavbarLoginForm = () => {
 </form>
 }
 
+const NavbarLogoutButton = () => {
+  const [ , setCookies] = useCookies(["access_token"]);
+  const navigate = useNavigate();
+
+  const onClick = async () => {
+    await setCookies("access_token", "");
+    await window.localStorage.removeItem("userId");
+    navigate("/");
+  };
+
+  return <button className="bg-red-700 hover:bg-red-800 text-white rounded-md px-3 py-1"
+          onClick={onClick}>Logout</button>
+};
+
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const [cookies , ] = useCookies(["access_token"]);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -57,9 +103,12 @@ export const Navbar = () => {
 
       {/* Login Form */}
       <Routes>
-        <Route path="/" element={<NavbarLoginForm />}>  </Route>
-        <Route path="/register" element={<div>Login</div>}></Route>
-        <Route path="/login" element={<div>Create Account</div>}></Route>
+        <Route path="/*" element={cookies.access_token ? (<NavbarLogoutButton />) : (<NavbarLoginForm />)}>  </Route>
+        <Route exact path="/register" 
+        element={
+          <Link className="bg-blue-700 hover:bg-blue-800 text-white rounded-md px-3 py-1" to="/login">Login</Link>
+        }></Route>
+        <Route exact path="/login" element={<Link className="bg-blue-700 hover:bg-blue-800 text-white rounded-md px-3 py-1" to="/register">Create Account</Link>}></Route>
       </Routes>
       
       
