@@ -1,11 +1,50 @@
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useState } from "react";
 
+const ResultDetail = ({ result }) => {
+  const [isDetailExpand, setIsDetailExpand] = useState(false);
+  const onClickTab = () => {
+    setIsDetailExpand(!isDetailExpand);
+  };
+  const muscleTarget = result.muscle.replaceAll("_", " ");
+  const equipmentType = result.equipment.replaceAll("_", " ");
+  const instructions = result.instructions.split(".");
+  instructions.pop();
+  const resultCard = (
+    <div className="w-4/5 lg:w-2/5 md:w-3/5 mx-auto mt-3 transition"> 
+      <div onClick={onClickTab} className="bg-gray-800 text-white capitalize px-5 py-4 rounded-md  flex justify-between align-middle">
+        <p className="text-2xl" >{result.name}</p>
+        <FontAwesomeIcon className=" text-white font-extrabold text-xl" icon={faPlus} />
+      </div>
+      <div className={isDetailExpand ? 'overflow-hidden h-fit' : 'h-0 overflow-hidden'}>
+        <div className={`${isDetailExpand ? '' : '-translate-y-full'} p-4 transition-all ease-in-out duration-500 text-start bg-yellow-100 rounded-b-lg`}>
+          <p className="font-semibold text-xl">
+            Muscle Target 
+          </p>
+          <p className="capitalize text-lg"> {muscleTarget}</p>
+          <p className="font-semibold text-xl">
+            Equipment Type 
+          </p>
+          <p className="capitalize text-lg"> {equipmentType}</p>
+          <p className="font-semibold text-xl">
+            How To Do It
+          </p>
+          {instructions.map((elem, i) => {
+              return <p key={elem} className="text-lg">{i + 1}. {elem}</p>
+          })}
+        </div>
+          
+      </div>
+      </div>
+  );
+  return resultCard;
+};
+
 const ResultList = ({ resultSet }) => {
   const view = resultSet.map((result) => {
-    return <p key={result.name}>{result.name}</p>
+    return <ResultDetail key={result.name} result={result}/>;
   });
   return view;
 }
@@ -75,7 +114,8 @@ export const HomePage = () => {
       <p className="inline font-semibold">Search based on</p>
       <select onChange={onChangeSearchBase} className="inline border py-1 border-black rounded mx-2 px-2 text-black bg-blue-300" name="" id="">
         <option value="name" className="py-2 select:bg-blue-400">Exercise Name</option>
-        <option value="muscle">Target Muscle</option>
+        <option value="muscle">Target 
+        Muscle</option>
       </select>
     </div>
     <div className="relative w-fit mx-auto">
