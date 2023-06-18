@@ -1,7 +1,8 @@
 import { faKey, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { register, clearError } from "../actions/authActions";
+import { useDispatch, useSelector } from "react-redux";
 
 
 export const RegisterPage = () => {
@@ -9,7 +10,9 @@ export const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [error, setError] = useState("");
+
+  const dispatch = useDispatch();
+  const { registerErrorMessage } = useSelector(state => state.auth);
 
   const usernameChange = (event) => {
     setUsername(event.target.value)
@@ -30,16 +33,12 @@ export const RegisterPage = () => {
     if (!password || !username) {
       return;
     }
-    try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, {
-        username,
-        password
-      });
-    } catch (err) {
-      setError(err.response.data.message);
-      console.error(err);
-    }
+    dispatch(register(username, password));
   }
+
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
 
   return <div className="flex justify-center items-center h-screen">
     <div className="bg-gray-200 hover:shadow-lg hover:transition-transform w-4/5 md:w-3/5 lg:w-2/5 h-4/6 rounded-xl">
@@ -71,7 +70,7 @@ export const RegisterPage = () => {
         </div>     
         <p className="mt-2 text-red-600">{passwordError}</p>   
         <button className="bg-blue-600 hover:bg-blue-900 rounded mt-2 py-3 px-5 text-white" type="submit">Register</button>
-        <p className="mt-2 text-red-600">{error}</p>
+        <p className="mt-2 text-red-600">{registerErrorMessage}</p>
       </form>
     </div>
     

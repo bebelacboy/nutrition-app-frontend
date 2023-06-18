@@ -1,19 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
-import axios from 'axios';
+import { useEffect, useState } from "react";
 import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login, clearError } from "../actions/authActions";
 
 export const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [ , setCookies] = useCookies(["access_token"]);
-  const navigate = useNavigate();
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [error, setError] = useState("");
-
+  
+  const dispatch = useDispatch();
+  const { user, loginErrorMessage } = useSelector(state => state.auth);
 
   const usernameChange = (event) => {
     setUsername(event.target.value)
@@ -23,7 +22,7 @@ export const LoginPage = () => {
     setPassword(event.target.value)
   }
 
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
     if (!username) {
       setUsernameError("Please fill in the username!");
@@ -34,18 +33,15 @@ export const LoginPage = () => {
     if (!password || !username) {
       return;
     }
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
-        username,
-        password
-      });
-      await setCookies("access_token", response.data.token);
-      await window.localStorage.setItem("userId", response.data.userId);
-      navigate("/");
-    } catch (err) {
-      setError(err.response.data.message);
-      console.error(err)
-    }
+    dispatch(login(username, password));
+  }
+
+  useEffect(() => {
+    dispatch(clearError());
+  }, [dispatch]);
+
+  if (user) {
+    return <Navigate to="/" />
   }
 
   
@@ -79,7 +75,7 @@ export const LoginPage = () => {
       </div>        
       <p className="mt-2 text-red-600">{passwordError}</p>  
       <button className="bg-blue-600 hover:bg-blue-900 rounded mt-2 py-3 px-5 text-white" type="submit">Login</button>
-      <p className="mt-2 text-red-600">{error}</p>
+      <p className="mt-2 text-red-600">{loginErrorMessage}</p>
     </form>
   </div>
 </div>
