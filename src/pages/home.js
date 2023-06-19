@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState } from "react";
 import { ResultList } from "../components/Home/ResultList";
 import { useSelector } from "react-redux";
+import SearchExerciseService from "../services/SearchExerciseService";
 
 export const HomePage = () => {
   const [searchBase, setSearchBase] = useState("name");
@@ -32,36 +33,21 @@ export const HomePage = () => {
 
   const performSearch = async (query) => {
     setIsLoading(true);
-    let options = {}
     if (searchBase === "name") {
-      options = {
-        method: 'GET',
-        url: 'https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises',
-        params: {name: searchQuery},
-        headers: {
-          'X-RapidAPI-Key': 'd31f531777mshae68be1f8bed451p1c7d29jsn18e4a72eeb0a',
-          'X-RapidAPI-Host': 'exercises-by-api-ninjas.p.rapidapi.com'
-        }
-      };
+      try {
+        const response = await SearchExerciseService.searchExerciseByName(query);
+        setSearchResult(response.data);
+      } catch (error) {
+        console.error(error);
+      }
     } else {
-      options = {
-        method: 'GET',
-        url: 'https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises',
-        params: {muscle: searchQuery},
-        headers: {
-          'X-RapidAPI-Key': 'd31f531777mshae68be1f8bed451p1c7d29jsn18e4a72eeb0a',
-          'X-RapidAPI-Host': 'exercises-by-api-ninjas.p.rapidapi.com'
-        }
-      };
+      try {
+        const response = await SearchExerciseService.searchExerciseByMuscleTarget(query);
+        setSearchResult(response.data);
+      } catch (error) {
+        console.error(error);
+      }
     }
-
-    try {
-      const response = await axios.request(options)
-      setSearchResult(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-
     setIsLoading(false);
   }
 

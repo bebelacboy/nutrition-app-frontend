@@ -1,9 +1,8 @@
 import { faKey, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
-import { register, clearError } from "../actions/authActions";
+import { register, clearError } from "../slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-
 
 export const RegisterPage = () => {
   const [username, setUsername] = useState("");

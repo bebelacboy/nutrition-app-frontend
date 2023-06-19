@@ -3,18 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { CreateSessionCard } from "../components/WorkoutPlan/CreateSessionCard";
 import { useDispatch, useSelector } from "react-redux";
-import { frequencyChange } from "../actions/workoutPlanActions";
+import { frequencyChange } from "../slices/workoutPlanSlice";
 
 export const CreateWorkoutPlanPage = () => {
   const [frequency, setFrequency] = useState(3);
   const [splitRecommendation, setSplitRecommendation] = useState("");
-  const { workoutSessions, availableDays } = useSelector(state => state.createWorkoutPlan);
-
+  const { workoutSessions } = useSelector(state => state.createWorkoutPlan);
   const dispatch = useDispatch();
 
   const frequencySelectHandle = (e) => {
     const newFrequency = e.target.value;
-    dispatch(frequencyChange(newFrequency, workoutSessions, availableDays));
+    dispatch(frequencyChange(newFrequency));
     setFrequency(newFrequency);
   }
   
@@ -49,7 +48,7 @@ export const CreateWorkoutPlanPage = () => {
         </div>
       </div>
       <br />
-      <p>Split Recommendation: <span className="font-bold">{splitRecommendation}</span></p>
+      <p className="mb-10">Split Recommendation: <span className="font-bold">{splitRecommendation}</span></p>
       <div className="flex flex-wrap justify-center gap-4">
         {workoutSessions.map((elem, idx) => {
           return (
@@ -58,6 +57,7 @@ export const CreateWorkoutPlanPage = () => {
           ;
         })}
       </div>
+      <button className="bg-gray-800 hover:bg-gray-600 p-3 text-xl font-semibold text-white rounded" type="submit">Save Plan</button>
     </form>
 
   </div>;

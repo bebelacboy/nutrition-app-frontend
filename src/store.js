@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authReducer } from "./reducers/authReducer";
-import { createWorkoutPlanReducer } from "./reducers/workoutPlanReducer";
+import createWorkoutPlanReducer from "./slices/workoutPlanSlice";
+import authReducer from "./slices/authSlice"
 
 export const store = configureStore({
   reducer: {

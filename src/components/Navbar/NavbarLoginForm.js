@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
-import { login } from "../../actions/authActions";
+import { login } from "../../slices/authSlice";
 
 
 export const NavbarLoginForm = () => {
