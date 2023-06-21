@@ -3,41 +3,81 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { CreateSessionCard } from "../components/WorkoutPlan/CreateSessionCard";
 import { useDispatch, useSelector } from "react-redux";
-import { frequencyChange } from "../slices/workoutPlanSlice";
+import { frequencyChange, resetPlan } from "../slices/createWorkoutPlanSlice";
+import WorkoutPlanService from "../services/WorkoutPlanService";
+import { useNavigate } from "react-router-dom";
 
 export const CreateWorkoutPlanPage = () => {
-  const [frequency, setFrequency] = useState(3);
-  const [splitRecommendation, setSplitRecommendation] = useState("");
   const { workoutSessions } = useSelector(state => state.createWorkoutPlan);
+  const [splitRecommendation, setSplitRecommendation] = useState("");
+  const [frequency, setFrequency] = useState(workoutSessions.length);
+  const [planName, setPlanName] = useState("My Workout Plan");
+  const [errorSubmit, setErrorSubmit] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const frequencySelectHandle = (e) => {
     const newFrequency = e.target.value;
     dispatch(frequencyChange(newFrequency));
     setFrequency(newFrequency);
   }
+
+  const formSubmitHandle = async (e) => {
+    e.preventDefault();
+    const emptyExercise = workoutSessions.find((session) => {
+      if (session.exercises[session.exercises.length - 1].name === "") {
+        return true
+      }
+      return false;
+    })
+    if (emptyExercise) {
+      setErrorSubmit("Fill all exercises before submit!");
+      setTimeout(() => {
+        setErrorSubmit("");
+      }, 2500);
+      return;
+    }
+    const newWorkoutPlan = {
+      name: planName,
+      frequency,
+      workoutSessions
+    }
+    const response = await WorkoutPlanService.createWorkoutPlan(newWorkoutPlan);
+    navigate(`/workout-plan/${response.data.workoutPlan._id}`);
+  }
+
+  const nameChangeHandle = (e) => {
+    setPlanName(e.target.value);
+  }
   
   useEffect(() => {
-    if (frequency == 3) {
+    if (frequency === 3) {
       setSplitRecommendation("Full Body Workout Split");
-    } else if (frequency == 4) {
+    } else if (frequency === 4) {
       setSplitRecommendation("Upper Lower Workout Split");
-    } else if (frequency == 5) {
+    } else if (frequency === 5) {
       setSplitRecommendation("Upper Lower Workout, Push Pull Leg Upper Lower Workout Split");
-    } else if (frequency == 6) {
+    } else if (frequency === 6) {
       setSplitRecommendation("Push Pull Leg Workout Split");
     }
   }, [frequency]);
+
+  useEffect(() => {
+    dispatch(resetPlan());
+    setFrequency(3);
+    setPlanName("My Workout Plan");
+  }, [dispatch])
+
   return <div className="mt-16">
-    <div className="mt-24 font-semibold text-3xl">
-      Your workout plan
+    <div className="mt-24">
+      <input className="text-center rounded text-3xl py-1 border border-solid border-black" onChange={nameChangeHandle} value={planName} type="text" />
     </div>
-    <form>
+    <form onSubmit={formSubmitHandle}>
       <div className="flex justify-center items-center">
         <label htmlFor="frequency" className="text-xl">How many times do you workout in a week?</label>
         {/* Workout frequency */}
         <div className="relative">
-          <select onChange={frequencySelectHandle} name="frequency" id="frequency"
+          <select onChange={frequencySelectHandle} value={frequency} name="frequency" id="frequency"
             className="appearance-none w-14 px-2 py-2 ms-3 font-bold border-2 border-black focus:outline-none rounded focus:outline-blue-600" >
               <option value='3'>3</option>
               <option value='4'>4</option>
@@ -57,7 +97,9 @@ export const CreateWorkoutPlanPage = () => {
           ;
         })}
       </div>
-      <button className="bg-gray-800 hover:bg-gray-600 p-3 text-xl font-semibold text-white rounded" type="submit">Save Plan</button>
+      <button className="bg-gray-800 hover:bg-gray-700 p-3 text-xl font-semibold text-white rounded" type="submit">Save Plan</button>
+      {errorSubmit && <p className="bg-red-600 w-64 mx-auto mt-3 font-semibold text-white text-md rounded-lg py-1 px-1">{errorSubmit}</p>}
+
     </form>
 
   </div>;

@@ -1,10 +1,10 @@
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { useState } from "react";
 import { ResultList } from "../components/Home/ResultList";
 import { useSelector } from "react-redux";
 import SearchExerciseService from "../services/SearchExerciseService";
+import { BlueOvalLoader } from "../components/Loader/BlueOvalLoader";
 
 export const HomePage = () => {
   const [searchBase, setSearchBase] = useState("name");
@@ -68,7 +68,7 @@ export const HomePage = () => {
       </div>
       <input onKeyPress={onKeyDownSearch} onChange={onChangeSearch} type="text" value={searchQuery} className="w-96 ps-9 border border-black mt-2 h-10 rounded-md" placeholder={searchBase === "name" ? "Enter exercise name..." : "Enter target muscle..."}/>
     </div>
-    {isLoading ? <div className="font-bold mt-3">Loading Exercises...</div> : <></>}
+    {isLoading ? <BlueOvalLoader/> : <></>}
     {isLoading ? <></> : <ResultList resultSet={searchResult}/>}
     
   </div>;

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const createWorkoutPlanSlice = createSlice({
-  name: "workoutPlan",
+  name: "createWorkoutPlan",
   initialState: {
     workoutSessions: [
     {
@@ -119,10 +119,52 @@ const createWorkoutPlanSlice = createSlice({
         }
       }
     },
-
+    deleteExercise: (state, action) => {
+      const { day, index: exerciseNumber } = action.payload;
+      for (let i = 0; i < state.workoutSessions.length; i++) {
+        if (state.workoutSessions[i].day === day) {
+          state.workoutSessions[i].exercises.splice(exerciseNumber, 1);
+          break;
+        }
+      }
+    },
+    resetPlan: (state, action) => {
+      state.availableDays = ["tuesday", "thursday", "saturday", "sunday"];
+      state.workoutSessions = [
+        {
+          day: "monday",
+          exercises: [
+            {
+              name: "",
+              set: 0,
+              reps: 0
+            }
+          ]
+        }, 
+        {
+          day: "wednesday",
+          exercises: [
+            {
+              name: "",
+              set: 0,
+              reps: 0
+            }
+          ]
+        }, 
+        {
+          day: "friday",
+          exercises: [
+            {
+              name: "",
+              set: 0,
+              reps: 0
+            }
+          ]
+        }
+      ]
+    }
   }
 }
-
 
 );
 export const { 
@@ -131,6 +173,8 @@ export const {
   addSessionExercise, 
   selectExercise,
   setExerciseSet,
-  setExerciseReps
+  setExerciseReps,
+  deleteExercise,
+  resetPlan
 } = createWorkoutPlanSlice.actions;
 export default createWorkoutPlanSlice.reducer;

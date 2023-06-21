@@ -1,6 +1,10 @@
 import axios from 'axios';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const register = async (username, password) => {
+  
   const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, {
     username,
     password
@@ -13,13 +17,15 @@ const login = async (username, password) => {
     username,
     password
   });
-  await localStorage.setItem("user", JSON.stringify(response.data));
+  await cookies.set("user", JSON.stringify(response.data), {
+    path: '/'
+  })
   return response;
 }
 
 
 const logout = async () => {
-  await localStorage.removeItem("user");
+  await cookies.remove("user");
 }
 
 const AuthService = {

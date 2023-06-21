@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { SessionExerciseRow } from "./SessionExerciseRow";
-import { sessionDayChange, addSessionExercise } from "../../slices/workoutPlanSlice";
+import { sessionDayChange, addSessionExercise } from "../../slices/createWorkoutPlanSlice";
 import { useState } from "react";
 
 export const CreateSessionCard = ({ session }) => {

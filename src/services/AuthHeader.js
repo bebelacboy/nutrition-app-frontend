@@ -1,12 +1,16 @@
-export const AuthHeader = async () => {
-  const user = await JSON.parse(localStorage.getItem("user"));
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
+
+export const authHeader = async () => {
+  const user = await cookies.get("user");
   if (user) {
     return {
-      "Authorization": `Bearer ${user.accessToken}`
+      "Authorization": `Bearer ${user.token}`
     }
   } else {
-    return {
-      
+    return { 
+
     }
   }
 }

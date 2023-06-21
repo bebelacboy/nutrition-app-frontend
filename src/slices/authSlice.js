@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
 import AuthService from "../services/AuthService";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: await JSON.parse(localStorage.getItem("user")),
+    user: await cookies.get("user"),
     loginErrorMessage: "",
     registerErrorMessage: ""
   },
