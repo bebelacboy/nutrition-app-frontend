@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useSelector(state => state.auth);
+
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -37,6 +39,7 @@ export const Navbar = () => {
         </button>
 
       </div>
+
 
       {/* Login Form */}
       <Routes>

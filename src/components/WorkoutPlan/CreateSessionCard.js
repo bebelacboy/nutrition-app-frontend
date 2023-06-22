@@ -42,7 +42,7 @@ export const CreateSessionCard = ({ session }) => {
     <div className="bg-yellow-100">
       { 
         session.exercises.map((elem, idx) => {
-          return <SessionExerciseRow exercise={elem} day={session.day} index={idx} />
+          return <SessionExerciseRow key={idx} exercise={elem} day={session.day} index={idx} />
         })
       }
     </div>

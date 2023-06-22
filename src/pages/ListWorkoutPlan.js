@@ -4,7 +4,7 @@ import { WorkoutPlansList } from "../components/WorkoutPlan/WorkoutPlansList";
 import { BlueOvalLoader } from "../components/Loader/BlueOvalLoader";
 import { useSelector, useDispatch } from "react-redux";
 import { Modal } from "../components/Modal/Modal";
-import { cancelDelete } from "../slices/listWorkoutPlanSlice";
+import { cancelDelete, deleteWorkoutPlan } from "../slices/listWorkoutPlanSlice";
 
 export const ListWorkoutPlanPage = () => {
   const [ workoutPlans, setWorkoutPlans ] = useState([]);
@@ -39,8 +39,20 @@ export const ListWorkoutPlanPage = () => {
   }, [planToDeleteId]);
 
   const handleDeleteCancel = (e) => {
-    dispatch(cancelDelete())
-  }
+    dispatch(cancelDelete());
+  };
+
+  const handleDeleteConfirm = async (e) => {
+    await dispatch(deleteWorkoutPlan(planToDeleteId));
+    setIsLoading(true);
+    WorkoutPlanService.getWorkoutPlansList().then((fetchedWorkoutPlans) => {
+      console.log(fetchedWorkoutPlans);
+      setWorkoutPlans(fetchedWorkoutPlans);
+      setIsLoading(false);
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
 
   return <div className="mt-16">
     <h1 className="mt-24 text-3xl font-semibold mb-10"> Your Workout Plans </h1>
@@ -73,7 +85,7 @@ export const ListWorkoutPlanPage = () => {
     }
     {
       planToDeleteId &&
-      <Modal onCancel={handleDeleteCancel} message={`Anda yakin ingin menghapus ${planToDeleteName}?`} />
+      <Modal onConfirm={handleDeleteConfirm} onCancel={handleDeleteCancel} message={`Anda yakin ingin menghapus ${planToDeleteName}?`} />
     }
   </div>
 }

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import AuthService from "../services/AuthService";
 import Cookies from "universal-cookie";
+import WorkoutPlanService from "../services/WorkoutPlanService";
 
 const cookies = new Cookies();
 
@@ -8,12 +9,15 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: await cookies.get("user"),
+    currentPlanId: await cookies.get("currentPlanId"),
     loginErrorMessage: "",
     registerErrorMessage: ""
   },
   reducers: {
     loginSuccess: (state, action) => {
-      state.user = action.payload;
+      const { userData, currentPlanId } = action.payload;
+      state.user = userData;
+      state.currentPlanId = currentPlanId; 
     },
     loginFailure: (state, action) => {
       state.loginErrorMessage = action.payload;
@@ -23,6 +27,7 @@ const authSlice = createSlice({
     },
     logout: (state, action) => {
       state.user = null;
+      state.currentPlanId = null;
     },
     clearError: (state, action) => {
       state.loginErrorMessage = "";
@@ -46,7 +51,11 @@ const register = (username, password) => async (dispatch) => {
 const login = (username, password) => async (dispatch) => {
   try {
     const response = await AuthService.login(username, password);
-    dispatch(authSlice.actions.loginSuccess(response.data));
+    const currentPlanId = await WorkoutPlanService.getUserCurrentPlanId();
+    dispatch(authSlice.actions.loginSuccess({
+      userData: response.data,
+      currentPlanId: currentPlanId
+    }));
   } catch (err) {
     const errorMessage =
         (err.response && err.response.data && err.response.data.message) ||
@@ -59,7 +68,6 @@ const login = (username, password) => async (dispatch) => {
 const logout = () => async (dispatch) => {
   await AuthService.logout();
   dispatch(authSlice.actions.logout());
-  console.log("Berhasil dispatch logout");
 }
 
 export { register, login, logout };

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { login } from "../../slices/authSlice";
+import { useSelector } from "react-redux";
 
 
 export const NavbarLoginForm = () => {
@@ -11,6 +12,7 @@ export const NavbarLoginForm = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { loginErrorMessage } = useSelector(state => state.auth);
 
   const usernameChange = (event) => {
     setUsername(event.target.value)
@@ -31,6 +33,7 @@ export const NavbarLoginForm = () => {
   }
   return <form onSubmit={onSubmit} method="post" className="hidden md:flex">
     <Link className=" w-36 my-auto text-white text-sm hover:text-gray-100 me-4 py-1" to="/register">Dont have account?</Link>
+    {loginErrorMessage && <p className="bg-red-600 text-white rounded-lg me-4 px-2 my-auto">{loginErrorMessage}</p>}
   <div className="relative">
     <div className="absolute inset-y-0 pl-3 py-2 left-0 pointer-events-none">
       <FontAwesomeIcon aria-hidden className=" text-gray-400" icon={faUser} />
@@ -50,6 +53,5 @@ export const NavbarLoginForm = () => {
     placeholder="Password"/>
   </div>
   <button type="submit" className=" bg-green-700 rounded font-bold text-white px-3 py-2 ms-3">{'>'}</button>
-  
 </form>
 }

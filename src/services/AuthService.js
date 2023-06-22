@@ -13,10 +13,12 @@ const register = async (username, password) => {
 }
 
 const login = async (username, password) => {
+  console.log("masuk kemethod");
   const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
     username,
     password
   });
+  console.log(`dapet respon ${response.data}`);
   await cookies.set("user", JSON.stringify(response.data), {
     path: '/'
   })
@@ -26,6 +28,7 @@ const login = async (username, password) => {
 
 const logout = async () => {
   await cookies.remove("user");
+  await cookies.remove("currentPlanId");
 }
 
 const AuthService = {

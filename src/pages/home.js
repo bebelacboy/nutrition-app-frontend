@@ -51,7 +51,7 @@ export const HomePage = () => {
     setIsLoading(false);
   }
 
-  return <div className="mt-16">
+  return <div className="lg:mt-16 md:mt-16">
     <h1 className="text-4xl font-semibold bg-gray-300 py-12">{user ? `Welcome, ${user.username}!` : 'Login to start your workout plan!'}</h1>
     <h2 className="text-4xl font-bold mt-8">Search for Exercises</h2>
     <div className="relative">  

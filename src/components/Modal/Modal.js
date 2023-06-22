@@ -4,7 +4,7 @@ export const Modal = ({message, onConfirm, onCancel}) => {
               <p className="text-2xl py-4">{message}</p>
               <div className="flex justify-end">
                 <button onClick={onCancel} className="mt-2 me-3 text-lg bg-gray-600 text-white px-3 py-1 rounded-lg">Cancel</button>
-                <button className="mt-2 me-3 text-lg bg-blue-900 text-white px-3 py-1 rounded-lg">Confirm</button>
+                <button onClick={onConfirm} className="mt-2 me-3 text-lg bg-blue-900 text-white px-3 py-1 rounded-lg">Confirm</button>
               </div>
             </div>
   </div>
