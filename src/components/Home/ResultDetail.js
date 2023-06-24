@@ -12,7 +12,7 @@ export const ResultDetail = ({ result }) => {
   const instructions = result.instructions.split(".");
   instructions.pop();
   const resultCard = (
-    <div className="w-4/5 mx-auto mt-3 transition"> 
+    <div className=" mx-auto mt-3 transition"> 
       <div onClick={onClickTab} className="bg-gray-700 hover:bg-gray-900 text-white capitalize px-5 py-4 rounded-md  flex justify-between align-middle">
         <p className="text-2xl" >{result.name}</p>
         {

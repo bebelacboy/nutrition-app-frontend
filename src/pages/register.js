@@ -1,7 +1,7 @@
 import { faKey, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
-import { register, clearError } from "../slices/authSlice";
+import { register, clearMessage } from "../slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 export const RegisterPage = () => {
@@ -11,7 +11,7 @@ export const RegisterPage = () => {
   const [passwordError, setPasswordError] = useState("");
 
   const dispatch = useDispatch();
-  const { registerErrorMessage } = useSelector(state => state.auth);
+  const { registerErrorMessage, registerSuccessMessage } = useSelector(state => state.auth);
 
   const usernameChange = (event) => {
     setUsername(event.target.value)
@@ -36,7 +36,7 @@ export const RegisterPage = () => {
   }
 
   useEffect(() => {
-    dispatch(clearError());
+    dispatch(clearMessage());
   }, [dispatch]);
 
   return <div className="flex justify-center items-center h-screen">
@@ -70,6 +70,7 @@ export const RegisterPage = () => {
         <p className="mt-2 text-red-600">{passwordError}</p>   
         <button className="bg-blue-600 hover:bg-blue-900 rounded mt-2 py-3 px-5 text-white" type="submit">Register</button>
         <p className="mt-2 text-red-600">{registerErrorMessage}</p>
+        <p className="mt-2 text-green-600">{registerSuccessMessage}</p>
       </form>
     </div>
     

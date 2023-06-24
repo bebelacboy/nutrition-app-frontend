@@ -8,6 +8,8 @@ import { RegisterPage } from './pages/Register';
 import { PrivateRoute } from './components/Authorization/PrivateRoute';
 import { ListWorkoutPlanPage } from './pages/ListWorkoutPlan';
 import { WorkoutPlanDetailPage } from './pages/WorkoutPlanDetail';
+import { ListWorkoutHistoryPage } from './pages/ListWorkoutHistory';
+import { WorkoutHistoryDetailPage } from './pages/WorkoutHistoryDetail';
 
 function App() {
   return (
@@ -23,10 +25,24 @@ function App() {
               <CreateWorkoutPlanPage />
             </PrivateRoute>} />
           <Route path="/workout-plan" element={
-              <ListWorkoutPlanPage />
+              <PrivateRoute>
+                <ListWorkoutPlanPage />
+              </PrivateRoute>
             } />
           <Route path="/workout-plan/:id" element={
-              <WorkoutPlanDetailPage />
+              <PrivateRoute>
+                <WorkoutPlanDetailPage />
+              </PrivateRoute>
+            } />
+          <Route path="/workout-history" element={
+            <PrivateRoute>
+              <ListWorkoutHistoryPage />
+            </PrivateRoute>
+            } />
+          <Route path="/workout-history/:date" element={
+            <PrivateRoute>
+              <WorkoutHistoryDetailPage />
+            </PrivateRoute>
             } />
         </Routes>
       </Router>

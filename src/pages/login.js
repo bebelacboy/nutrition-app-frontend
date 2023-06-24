@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login, clearError } from "../slices/authSlice";
+import { login, clearMessage } from "../slices/authSlice";
 
 export const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -37,7 +37,7 @@ export const LoginPage = () => {
   }
 
   useEffect(() => {
-    dispatch(clearError());
+    dispatch(clearMessage());
   }, [dispatch]);
 
   if (user) {
