@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { frequencyChange, resetPlan } from "../slices/createWorkoutPlanSlice";
 import WorkoutPlanService from "../services/WorkoutPlanService";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 export const CreateWorkoutPlanPage = () => {
   const { workoutSessions } = useSelector(state => state.createWorkoutPlan);
@@ -69,6 +70,9 @@ export const CreateWorkoutPlanPage = () => {
   }, [dispatch])
 
   return <div className="mt-16">
+    <Helmet>
+      <title>New Workout Plan</title>
+    </Helmet>
     <div className="mt-24">
       <input className="text-center rounded text-3xl py-1 border border-solid border-black" onChange={nameChangeHandle} value={planName} type="text" />
     </div>

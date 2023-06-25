@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { BlueOvalLoader } from "../components/Loader/BlueOvalLoader";
 import WorkoutSessionService from "../services/WorkoutSessionService";
 import { WorkoutHistoriesList } from "../components/WorkoutHistory/WorkoutHistoriesList";
+import { Helmet } from "react-helmet";
 
 export const ListWorkoutHistoryPage = () => {
   const [ workoutSessions, setWorkoutSessions ] = useState([]);
@@ -9,7 +10,6 @@ export const ListWorkoutHistoryPage = () => {
   
   useEffect(() => {
     WorkoutSessionService.getWorkoutSessionsList().then((fetchedWorkoutSessions) => {
-      console.log(fetchedWorkoutSessions);
       setWorkoutSessions(fetchedWorkoutSessions);
       setIsLoading(false);
     }).catch((err) => {
@@ -18,6 +18,9 @@ export const ListWorkoutHistoryPage = () => {
   }, []);
 
   return <div className="mt-16">
+    <Helmet>
+      <title>Your Workout Histories</title>
+    </Helmet>
     <h1 className="mt-24 text-3xl font-semibold mb-10"> Your Workout History </h1>
     {
     isLoading ? 

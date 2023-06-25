@@ -5,6 +5,7 @@ import { BlueOvalLoader } from "../components/Loader/BlueOvalLoader";
 import { useSelector, useDispatch } from "react-redux";
 import { Modal } from "../components/Modal/Modal";
 import { cancelDelete, deleteWorkoutPlan } from "../slices/listWorkoutPlanSlice";
+import { Helmet } from "react-helmet";
 
 export const ListWorkoutPlanPage = () => {
   const [ workoutPlans, setWorkoutPlans ] = useState([]);
@@ -15,13 +16,11 @@ export const ListWorkoutPlanPage = () => {
   
   useEffect(() => {
     WorkoutPlanService.getWorkoutPlansList().then((fetchedWorkoutPlans) => {
-      console.log(fetchedWorkoutPlans);
       setWorkoutPlans(fetchedWorkoutPlans);
       setIsLoading(false);
     }).catch((err) => {
       console.log(err);
     });
-    console.log(workoutPlans);
   }, []);
 
   useEffect(() => {
@@ -46,7 +45,6 @@ export const ListWorkoutPlanPage = () => {
     await dispatch(deleteWorkoutPlan(planToDeleteId));
     setIsLoading(true);
     WorkoutPlanService.getWorkoutPlansList().then((fetchedWorkoutPlans) => {
-      console.log(fetchedWorkoutPlans);
       setWorkoutPlans(fetchedWorkoutPlans);
       setIsLoading(false);
     }).catch((err) => {
@@ -55,6 +53,9 @@ export const ListWorkoutPlanPage = () => {
   };
 
   return <div className="mt-16">
+    <Helmet>
+      <title>Your Workout Plans</title>
+    </Helmet>
     <h1 className="mt-24 text-3xl font-semibold mb-10"> Your Workout Plans </h1>
     {
       workoutPlans.length > 0 &&

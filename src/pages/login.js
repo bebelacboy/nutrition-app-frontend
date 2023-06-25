@@ -4,6 +4,7 @@ import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, clearMessage } from "../slices/authSlice";
+import { Helmet } from "react-helmet";
 
 export const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -46,6 +47,9 @@ export const LoginPage = () => {
 
   
   return <div className="flex justify-center items-center h-screen">
+  <Helmet>
+    <title>Login</title>
+  </Helmet>
   <div className="bg-gray-200 hover:shadow-lg hover:transition-transform w-4/5 md:w-3/5 lg:w-2/5 h-4/6 rounded-xl">
     <h2 className="text-3xl font-bold mt-12">Login</h2>
     <form method="post" onSubmit={onSubmit} className="block mt-12">

@@ -40,8 +40,6 @@ const authSlice = createSlice({
     },
     selectPlanToFollow: (state, action) => {
       const {payload: id} = action;
-      console.log(`authSlice`);
-      console.log(id);
       state.currentPlanId = id;
     },
     selectPlanToUnfollow: (state, action) => {

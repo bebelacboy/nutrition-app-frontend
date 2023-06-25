@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import { register, clearMessage } from "../slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { Helmet } from "react-helmet";
 
 export const RegisterPage = () => {
   const [username, setUsername] = useState("");
@@ -40,6 +41,9 @@ export const RegisterPage = () => {
   }, [dispatch]);
 
   return <div className="flex justify-center items-center h-screen">
+    <Helmet>
+      <title>Register</title>
+    </Helmet>
     <div className="bg-gray-200 hover:shadow-lg hover:transition-transform w-4/5 md:w-3/5 lg:w-2/5 h-4/6 rounded-xl">
       <h2 className="text-3xl font-bold mt-12">Create Account</h2>
       <form method="post" onSubmit={onSubmit} className="block mt-12">

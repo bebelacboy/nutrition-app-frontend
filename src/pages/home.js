@@ -8,6 +8,7 @@ import { BlueOvalLoader } from "../components/Loader/BlueOvalLoader";
 import WorkoutSessionService from "../services/WorkoutSessionService";
 import WorkoutPlanService from "../services/WorkoutPlanService";
 import { TodayExercisesList } from "../components/Home/TodayExercisesList";
+import { Helmet } from "react-helmet";
 
 export const HomePage = () => {
   const [searchBase, setSearchBase] = useState("name");
@@ -21,7 +22,6 @@ export const HomePage = () => {
 
   useEffect(() => {
     setIsTodaySessionLoading(true);
-    console.log(`current plan ${currentPlanId}`);
     if (!currentPlanId) {
       setIsTodaySessionLoading(false);
       return;
@@ -30,20 +30,14 @@ export const HomePage = () => {
     let theWorkoutPlan = {};
     WorkoutPlanService.getWorkoutPlanById(currentPlanId).then((workoutPlan) => {
       theWorkoutPlan = workoutPlan;
-      console.log("wo plan")
-      console.log(theWorkoutPlan);
     }).catch((err) => {
       theWorkoutPlan = {};
     });
     const todayDate = new Date();
     const todayString = todayDate.toLocaleDateString("en-US", { weekday: 'long'}).toLowerCase();
-    console.log(todayDate.toLocaleDateString());
     // Check available session for today in database
     WorkoutSessionService.getWorkoutSessionByDate(todayDate).then((workoutSession) => {
       // If available check is the workout session referenced the current plan
-      console.log(workoutSession.plan);
-      console.log(currentPlanId);
-      console.log(`samakah: ${workoutSession.plan === currentPlanId}`)
       if (workoutSession.plan === currentPlanId) {
         // If same, set the today session to the fetched workout plan
         setTodaySession(workoutSession);
@@ -55,7 +49,6 @@ export const HomePage = () => {
           // If the changed plan has matching day with today
           if (theWorkoutPlan.workoutSessions[i].day === todayString) {
             const todaySessionOfCurrentWorkoutPlan = theWorkoutPlan.workoutSessions.find((session) => {
-              console.log(session.day);
               return session.day === todayString;
             });
             
@@ -134,6 +127,9 @@ export const HomePage = () => {
   }
 
   return <div className="lg:mt-16 md:mt-16">
+    <Helmet>
+      <title>Home</title>
+    </Helmet>
     <h1 className="text-4xl font-semibold bg-gray-300 py-12">{user ? `Welcome, ${user.username}!` : 'Login to start your workout plan!'}</h1>
     <div className="flex flex-wrap justify-center gap-40">
     { user &&

@@ -5,7 +5,6 @@ import { useEffect } from "react";
 export const WorkoutPlansList = ({ workoutPlans }) => {
   const { currentPlanId } = useSelector(state => state.auth);
   const currentPlan = workoutPlans.find((workoutPlan) => {
-    console.log(workoutPlan);
     return workoutPlan._id === currentPlanId
   });
   const currentPlanRow = (

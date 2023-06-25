@@ -1,7 +1,6 @@
 import { TodayExerciseRow } from "./TodayExerciseRow";
 
 export const TodayExercisesList = ({ todaySession }) => {
-  console.log(todaySession);
   const view = (
     todaySession.exercises.map((exercise, index) => {
       return <div key={`${exercise.name}${index}`} className="flex justify-center">
