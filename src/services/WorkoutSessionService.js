@@ -10,7 +10,8 @@ const getWorkoutSessionsList = async () => {
 }
 
 const getWorkoutSessionByDate = async (date) => {
-  const parameterDate = date.toLocaleDateString().replaceAll("/", "-");
+  // const parameterDate = date.toLocaleDateString().replaceAll("/", "-");
+  const parameterDate = date.toISOString().substring(0, 10);
   const response = await axios.get(`${process.env.REACT_APP_API_URL}/workout-session/${parameterDate}`, {
     headers: await authHeader()
   });
