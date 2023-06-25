@@ -166,7 +166,14 @@ export const HomePage = () => {
           <input onKeyPress={onKeyDownSearch} onChange={onChangeSearch} type="text" value={searchQuery} className="w-96 ps-9 border border-black mt-2 h-10 rounded-md" placeholder={searchBase === "name" ? "Enter exercise name..." : "Enter target muscle..."}/>
         </div>
         {isSearchLoading ? <BlueOvalLoader/> : <></>}
-        {isSearchLoading ? <></> : <ResultList resultSet={searchResult}/>}
+        {isSearchLoading ? <></> : 
+        (
+          searchResult.length !== 0 ?
+          <ResultList resultSet={searchResult}/>
+          :
+          <p className="text-xl mt-3">No exercise found.</p>
+        )
+        }
       </div>
       
     </div>
