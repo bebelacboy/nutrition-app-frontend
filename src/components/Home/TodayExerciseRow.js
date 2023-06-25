@@ -55,8 +55,8 @@ export const TodayExerciseRow = ({ exercise, exerciseNumber, session }) => {
     setIsLoadingDone(false);
   }
 
-  return <div className="flex gap-3 w-full justify-center bg-yellow-300 px-3 py-2 mb-2 rounded-md">
-    <p className="font-semibold max">{exercise.name}</p>
+  return <div className="flex gap-3 w-full justify-center items-center bg-yellow-300 px-3 py-2 mb-2 rounded-md">
+    <p className="font-semibold w-56">{exercise.name}</p>
     <div>
       { isDone ?
       <p className="font-semibold">{newSet} x {newReps}</p>

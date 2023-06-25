@@ -5,7 +5,6 @@ import { BlueOvalLoader } from "../components/Loader/BlueOvalLoader";
 import WorkoutPlanService from "../services/WorkoutPlanService";
 import { Helmet } from "react-helmet";
 
-
 export const WorkoutHistoryDetailPage = () => {
   const { date } = useParams();
   const [ isLoading, setIsLoading ] = useState(true);
