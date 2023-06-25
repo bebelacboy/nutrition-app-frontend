@@ -1,10 +1,10 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { HomePage } from './pages/Home';
+import { HomePage } from './pages/home';
 import { CreateWorkoutPlanPage } from './pages/CreateWorkoutPlan';
-import { LoginPage } from './pages/Login';
+import { LoginPage } from './pages/login';
 import { Navbar } from './components/Navbar/Navbar';
-import { RegisterPage } from './pages/Register';
+import { RegisterPage } from './pages/register';
 import { PrivateRoute } from './components/Authorization/PrivateRoute';
 import { ListWorkoutPlanPage } from './pages/ListWorkoutPlan';
 import { WorkoutPlanDetailPage } from './pages/WorkoutPlanDetail';
