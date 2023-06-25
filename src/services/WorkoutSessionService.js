@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { authHeader } from './authHeader';
+import { authHeader } from './AuthHeader';
 
 const getWorkoutSessionsList = async () => {
   const response = await axios.get(`${process.env.REACT_APP_API_URL}/workout-session`, {
