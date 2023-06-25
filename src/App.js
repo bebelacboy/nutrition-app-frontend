@@ -1,23 +1,51 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HomePage } from './pages/Home';
+import { CreateWorkoutPlanPage } from './pages/CreateWorkoutPlan';
+import { LoginPage } from './pages/Login';
+import { Navbar } from './components/Navbar/Navbar';
+import { RegisterPage } from './pages/Register';
+import { PrivateRoute } from './components/Authorization/PrivateRoute';
+import { ListWorkoutPlanPage } from './pages/ListWorkoutPlan';
+import { WorkoutPlanDetailPage } from './pages/WorkoutPlanDetail';
+import { ListWorkoutHistoryPage } from './pages/ListWorkoutHistory';
+import { WorkoutHistoryDetailPage } from './pages/WorkoutHistoryDetail';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/workout-plan/create" element={
+            <PrivateRoute>
+              <CreateWorkoutPlanPage />
+            </PrivateRoute>} />
+          <Route path="/workout-plan" element={
+              <PrivateRoute>
+                <ListWorkoutPlanPage />
+              </PrivateRoute>
+            } />
+          <Route path="/workout-plan/:id" element={
+              <PrivateRoute>
+                <WorkoutPlanDetailPage />
+              </PrivateRoute>
+            } />
+          <Route path="/workout-history" element={
+            <PrivateRoute>
+              <ListWorkoutHistoryPage />
+            </PrivateRoute>
+            } />
+          <Route path="/workout-history/:date" element={
+            <PrivateRoute>
+              <WorkoutHistoryDetailPage />
+            </PrivateRoute>
+            } />
+        </Routes>
+      </Router>
     </div>
   );
 }
