@@ -135,14 +135,14 @@ export const HomePage = () => {
     { user &&
       <div>
         <h2 className="text-4xl font-bold mt-8">Today Session</h2>
-        <div className=" bg-yellow-100 mx-auto 
-        border-solid border-2 border-black
-        mt-4">
-          <p className="text-xl m-2 font-bold">Exercises to do!</p>
+        <div className=" bg-gray-800 mx-auto 
+        mt-4 p-2
+        rounded-md">
+          <p className="text-xl text-white m-2">Exercises to do!</p>
           {isTodaySessionLoading && <BlueOvalLoader />}
           {!isTodaySessionLoading &&
             (Object.keys(todaySession).length === 0 ?
-            <h2 className="mb-2">No session for today.</h2>
+            <h2 className="mb-2 text-white">No session for today.</h2>
             :
             <TodayExercisesList todaySession={todaySession} /> )
           }
@@ -153,8 +153,8 @@ export const HomePage = () => {
         <h2 className="text-4xl font-bold mt-8">Search for Exercises</h2>
         <div className="relative">  
           <p className="inline font-semibold">Search based on</p>
-          <select onChange={onChangeSearchBase} className="inline border py-1 border-black rounded mx-2 px-2 text-black bg-blue-300" name="" id="">
-            <option value="name" className="py-2 select:bg-blue-400">Exercise Name</option>
+          <select onChange={onChangeSearchBase} className="inline border py-1 border-black rounded mx-2 px-2 text-black bg-amber-200" name="" id="">
+            <option value="name" className="py-2 select:bg-yellow-200">Exercise Name</option>
             <option value="muscle">Target 
             Muscle</option>
           </select>

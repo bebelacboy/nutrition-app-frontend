@@ -13,7 +13,7 @@ export const ResultDetail = ({ result }) => {
   instructions.pop();
   const resultCard = (
     <div className=" mx-auto mt-3 transition"> 
-      <div onClick={onClickTab} className="bg-gray-700 hover:bg-gray-900 text-white capitalize px-5 py-4 rounded-md  flex justify-between align-middle">
+      <div onClick={onClickTab} className="bg-gray-800 hover:bg-gray-700 text-white capitalize px-5 py-4 rounded-md  flex justify-between align-middle">
         <p className="text-2xl" >{result.name}</p>
         {
           isDetailExpand ? 
@@ -23,20 +23,20 @@ export const ResultDetail = ({ result }) => {
         
       </div>
       <div className={isDetailExpand ? 'overflow-hidden h-fit' : 'h-0 overflow-hidden'}>
-        <div className={`${isDetailExpand ? '' : '-translate-y-full'} p-4 transition-all ease-in-out duration-500 text-start bg-yellow-100 rounded-b-lg`}>
+        <div className={`${isDetailExpand ? '' : '-translate-y-full'} p-4 transition-all ease-in-out duration-500 text-start bg-amber-200 rounded-b-lg`}>
           <p className="font-semibold text-2xl">
             Muscle Target 
           </p>
-          <p className="capitalize text-xl"> {muscleTarget}</p>
+          <p className="capitalize"> {muscleTarget}</p>
           <p className="font-semibold text-2xl">
             Equipment Type 
           </p>
-          <p className="capitalize text-xl"> {equipmentType}</p>
+          <p className="capitalize"> {equipmentType}</p>
           <p className="font-semibold text-2xl">
             How To Do It
           </p>
           {instructions.map((elem, i) => {
-              return <p key={elem} className="text-lg">{i + 1}. {elem}</p>
+              return <p key={elem} className="">{i + 1}. {elem}</p>
           })}
         </div>
           
