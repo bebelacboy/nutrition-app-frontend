@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { authHeader } from './AuthHeader';
+// import { authHeader } from './authHeader';
 import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();

@@ -55,7 +55,7 @@ export const TodayExerciseRow = ({ exercise, exerciseNumber, session }) => {
     setIsLoadingDone(false);
   }
 
-  return <div className="flex gap-3 w-full justify-center items-center bg-yellow-300 px-3 py-2 mb-2 rounded-md">
+  return <div className="flex gap-3 w-full justify-center items-center bg-amber-200 px-3 py-2 mb-2 rounded-md">
     <p className="font-semibold w-56">{exercise.name}</p>
     <div>
       { isDone ?
@@ -80,7 +80,7 @@ export const TodayExerciseRow = ({ exercise, exerciseNumber, session }) => {
     </div>
     {
       isDone ?
-      <button disabled className="bg-gray-600 text-white px-2 rounded-md">Complete</button>
+      <button disabled className="bg-gray-600 text-white px-2 py-1 rounded-md">Complete</button>
       :
       ( isLoadingDone ?
         <BlueOvalLoader className="max-h-3" width={22} height={22} /> :

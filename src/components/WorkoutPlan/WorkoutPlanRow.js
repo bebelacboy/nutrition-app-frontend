@@ -32,7 +32,7 @@ export const WorkoutPlanRow = ({ workoutPlan, id }) => {
 
   return <div onClick={handleDetailClick} className={`w-3/4 mx-auto mb-3 py-4 px-5 rounded-md
   ${ currentPlanId === id ?
-    "bg-yellow-600 hover:bg-yellow-700"
+    "bg-gray-900 hover:bg-black"
     :
     "bg-gray-600 hover:bg-gray-800" } 
   flex justify-between items-center`}>

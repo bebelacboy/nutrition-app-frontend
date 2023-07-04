@@ -22,18 +22,18 @@ export const Navbar = () => {
     <div className="flex items-center justify-between h-16">
       {/* Logo and Navigation */}
       <div className="flex-shrink-0 ">
-        <a href="/" className=" text-yellow-600 text-2xl font-semibold">Workout</a>
+        <a href="/" className=" text-yellow-400 text-2xl font-semibold">Workout</a>
         <div className="hidden ms-3 md:inline-block md:items-center">
           <Link className={`px-3 py-2 rounded-md text-md font-medium 
-          ${location.pathname === '/' ? 'bg-gray-400 text-black' : 'text-gray-300 hover:text-white' }`} 
+          ${location.pathname === '/' ? 'text-white' : 'text-gray-300 hover:text-white' }`} 
           to="/">Home</Link>
-          {user && 
+          { user && 
             <>
               <Link className={`px-3 py-2 rounded-md text-md font-medium 
-              ${location.pathname.startsWith('/workout-plan') ? 'bg-gray-400 text-black' : 'text-gray-300 hover:text-white' }`}
+              ${location.pathname.startsWith('/workout-plan') ? 'text-white' : 'text-gray-300 hover:text-white' }`}
               to="/workout-plan">Workout Plan</Link>
               <Link className={`px-3 py-2 rounded-md text-md font-medium 
-              ${location.pathname.startsWith('/workout-history') ? 'bg-gray-400 text-black' : 'text-gray-300 hover:text-white' }`}
+              ${location.pathname.startsWith('/workout-history') ? 'text-white' : 'text-gray-300 hover:text-white' }`}
               to="/workout-history">Workout History</Link>
             </>
           }
@@ -68,8 +68,17 @@ export const Navbar = () => {
   <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`}>
     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
       <Link className={`${location.pathname === "/" ? "bg-gray-400 text-black": "text-gray-300 hover:text-white hover:bg-gray-500"} block py-2 rounded text-base font-medium`} to="/">Home</Link>
-      <Link className={`${location.pathname.startsWith("/workout-plan") ? "bg-gray-400 text-black": "text-gray-300 hover:text-white hover:bg-gray-500"} block py-2 rounded text-base font-medium`} to="/workout-plan">Workout Plan</Link>
-      <Link className={`${location.pathname.startsWith("/workout-history") ? "bg-gray-400 text-black": "text-gray-300 hover:text-white hover:bg-gray-500"} block py-2 rounded text-base font-medium`} to="/workout-history">Workout History</Link>
+      { user &&
+        <>  
+          <Link className={`${location.pathname.startsWith("/workout-plan") ? "bg-gray-400 text-black": "text-gray-300 hover:text-white hover:bg-gray-500"} block py-2 rounded text-base font-medium`} to="/workout-plan">Workout Plan</Link>
+          <Link className={`${location.pathname.startsWith("/workout-history") ? "bg-gray-400 text-black": "text-gray-300 hover:text-white hover:bg-gray-500"} block py-2 rounded text-base font-medium`} to="/workout-history">Workout History</Link>
+        </>
+      }
+      { !user &&
+        <>  
+          <Link className={`${location.pathname.startsWith("/login") ? "bg-gray-400 text-black": "text-gray-300 hover:text-white hover:bg-gray-500"} block py-2 rounded text-base font-medium`} to="/login">Login</Link>
+        </>
+      }
     </div>
   </div>
 </nav>

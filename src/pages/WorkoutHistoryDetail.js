@@ -33,10 +33,9 @@ export const WorkoutHistoryDetailPage = () => {
   const detailView = (
     <div>
       <h1 className="text-3xl mt-24 mb-12 font-semibold">{date} Workout Log</h1>
-      <div className="bg-yellow-100 w-4/5 lg:w-3/5 mx-auto p-3 rounded-md
-      border border-solid border-black">
-        <p className="font-bold text-2xl mb-3">{planReference}'s Session</p>
-        <div className="grid grid-cols-4 mx-auto font-bold">
+      <div className="bg-gray-800 w-4/5 lg:w-3/5 mx-auto p-3 rounded-lg">
+        <p className="font-semibold text-amber-300 text-2xl mb-3">{planReference}'s Session</p>
+        <div className="grid grid-cols-4 mx-auto text-white mb-2 font-semibold">
           <p>Exercise Name</p>
           <p>Set x Reps</p>
           <p>Weight</p>
@@ -44,7 +43,7 @@ export const WorkoutHistoryDetailPage = () => {
         </div>
         {workoutSession.exercises?.map((exercise, index) => {
           return <div key={index} className="grid grid-cols-4 gap-4 mb-2 mx-auto py-2 px-3
-           bg-yellow-300 font-semibold rounded-md">
+           bg-amber-200 font-semibold rounded-md">
             <p className="text-start my-auto">{exercise.name}</p>
             <p className="my-auto">{exercise.set} x {exercise.reps}</p>
             <p className="my-auto">{exercise.weight} Kg</p>

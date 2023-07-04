@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { WorkoutPlanRow } from "./WorkoutPlanRow";
-import { useEffect } from "react";
 
 export const WorkoutPlansList = ({ workoutPlans }) => {
   const { currentPlanId } = useSelector(state => state.auth);
